@@ -16,6 +16,8 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
+      Resque.enqueue(CreateJob, 5)
+      
       flash[:notice] = "Article was created."
       redirect_to articles_path
     else

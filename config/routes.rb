@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  require 'resque/server'
+  mount Resque::Server.new, at: '/resque'
+  
   resources :articles
   resources :comments
   resource  :account,   only: [:show] do
