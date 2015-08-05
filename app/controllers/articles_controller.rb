@@ -32,6 +32,8 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find params[:id]
     if @article.update_attributes(article_params)
+      Resque.enqueue(UpdateJob, 5)
+      
       flash[:notice] = "Article was updated."
       redirect_to article_path(@article)
     else
